@@ -1,7 +1,15 @@
-import "package:flutter/material.dart";
-import 'package:flutter_application_1/utils/routes.dart';
+import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+import '../utils/routes.dart';
+
+class LoginPage extends StatefulWidget {
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String _name = "";
+  bool _changeButton = false;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -19,26 +27,34 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 20.0,
             ),
-            const Text(
-              "Welcome",
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            Text(
+              "Welcome $_name",
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 20.0,
             ),
             Padding(
               padding:
-              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               child: Column(
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(
-                        hintText: "Enter the username", labelText: "Username"),
+                      hintText: "Enter the username",
+                      labelText: "Username",
+                    ),
+                    onChanged: (value) {
+                      _name = value;
+                      setState(() {}); // re-call the build(context) method
+                    },
                   ),
                   TextFormField(
                     obscureText: true,
                     decoration: const InputDecoration(
-                        hintText: "Enter the password", labelText: "Password"),
+                      hintText: "Enter the password",
+                      labelText: "Password",
+                    ),
                   ),
                 ],
               ),
@@ -46,14 +62,43 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 20.0,
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, MyRoutes.homeRoute);
+            InkWell(
+              onTap: () {
+                setState(() {
+                  if (_changeButton) {
+                    _changeButton = false;
+                  } else {
+                    _changeButton = true;
+                  }
+                });
+                if (_changeButton) {
+                  Future.delayed(const Duration(seconds: 1), () {
+                    Navigator.pushNamed(context, MyRoutes.homeRoute);
+                  });
+                }
               },
-              style: TextButton.styleFrom(
-                minimumSize: const Size(140, 40),
+              child: AnimatedContainer(
+                width: _changeButton ? 55 : 150,
+                height: _changeButton ? 55 : 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple,
+                  borderRadius: BorderRadius.circular(_changeButton ? 50 : 8),
+                ),
+                duration: const Duration(seconds: 1),
+                child: _changeButton
+                    ? const Icon(
+                        Icons.done,
+                        color: Colors.white,
+                      )
+                    : const Text(
+                        "Login",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
               ),
-              child: const Text("Login"),
             ),
           ],
         ),

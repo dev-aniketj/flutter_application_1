@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import "package:google_fonts/google_fonts.dart";
+import 'package:google_fonts/google_fonts.dart';
+
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
 import 'utils/routes.dart';
@@ -17,7 +18,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: GoogleFonts.lato().fontFamily,
       ),
-      debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
